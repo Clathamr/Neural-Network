@@ -1,8 +1,7 @@
-# from ad import *
 import builtins
 
 
-# Implementation of dual numbers type
+# Implementation of dual numbers type, defined by the assignment creator
 class dual:
     def __init__(self, val, grad):
         self.val = val
@@ -45,28 +44,36 @@ def max(u, v):
         return dual(val, grad)
 
 
+# My solution to the problem of creating a convolutional neural network with hidden layers.
+# Function takes a list of floats as input, returning the output "Y" and a list of node outputs as floats.
 def convnet(x):
+
     # Define hidden layer parameters
     v1 = dual(-0.3, 0)
     v2 = dual(0.6, 0)
     v3 = dual(1.3, 0)
     v4 = dual(-1.5, 0)
+
     # Define weights
     w1 = dual(1.2, 1)
     w2 = dual(-0.2, 0)
+
     # Calculate z1 through z4
     z1 = max(w1 * dual(x[0], 0) + w2 * dual(x[1], 0), dual(0, 0))
     z2 = max(w1 * dual(x[1], 0) + w2 * dual(x[2], 0), dual(0, 0))
     z3 = max(w1 * dual(x[2], 0) + w2 * dual(x[3], 0), dual(0, 0))
     z4 = max(w1 * dual(x[3], 0) + w2 * dual(x[4], 0), dual(0, 0))
+
     # Assign all z dual numbers to a list
     z = [z1, z2, z3, z4]
+
     # Calculate output y
     y = max((z1 * v1 + z2 * v2 + z3 * v3 + z4 * v4), dual(0, 0))
+
     # Return according to required function interface
     return y, z
 
 
 # Example X inputs
 x = [0.3, -1.5, 0.7, 2.1, 0.1]
-print("Y outputs:", convnet(x))
+print("Y Outputs:", convnet(x))
